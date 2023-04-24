@@ -18,7 +18,7 @@ headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
     'accept-language': 'zh-CN,zh;q=0.9',
     'cache-control': 'max-age=0',
-    'cookie': '__51vcke__JoX5b2bi347uSKwB=5c67768e-b23f-5a37-8042-54a53825dee0; __51vuft__JoX5b2bi347uSKwB=1680078656674; __51uvsct__JoX5b2bi347uSKwB=21; _tcnyl=1; ripro_notice_cookie=1; PHPSESSID=vv6vfelts8kl4pnim5fda9t1qt; wordpress_logged_in_856380da3851d8f4589b6c868b64794e=mail_80793076%7C1683107331%7CNTEYH2i22AQRy8lsrnUq4akOrZiMPpTnUfCdz0TKQlD%7C56e8bb01e56d1a64e009131634d4e1c6a002b686fa26d92ec133d3a3ce3ac571; __vtins__JoX5b2bi347uSKwB=%7B%22sid%22%3A%20%22fee62872-e8c2-597f-9dfe-d51795dfc411%22%2C%20%22vd%22%3A%203%2C%20%22stt%22%3A%2026439%2C%20%22dr%22%3A%203336%2C%20%22expires%22%3A%201681899530827%2C%20%22ct%22%3A%201681897730827%7D',
+    'cookie': '__51vcke__JoX5b2bi347uSKwB=7aaf68b9-e05e-5987-b587-3eb9830c1fc4; __51vuft__JoX5b2bi347uSKwB=1682063686836; ripro_notice_cookie=1; PHPSESSID=q24he9d38vjd3o21rafs6vfm11; wordpress_logged_in_856380da3851d8f4589b6c868b64794e=mail_80793076|1683273320|CX7asfk9APXZ3O7KwgHxkAkUQUmDZnrYvYZI5ZfFzvZ|90798aa8dab5f660d7116e70e8aa9414dc39ef10b7b679b9c93c9181dcaf54e8; _tcnyl=1; __vtins__JoX5b2bi347uSKwB={"sid": "f707c35a-7758-58bf-a076-18247c6a66c3", "vd": 1, "stt": 0, "dr": 0, "expires": 1682326773138, "ct": 1682324973138}; __51uvsct__JoX5b2bi347uSKwB=5',
     'referer': 'https://www.k8h8.com/11931.html',
     'sec-ch-ua': '"Chromium";v="112", "Google Chrome";v="112", "Not:A-Brand";v="99"',
     'sec-ch-ua-mobile': '?0',
@@ -76,8 +76,11 @@ def article_content(info):
             values.append('')
     value = "','".join(values)
     sql = f"""insert into cc_k8h8 ({keys}) VALUES ('{value}')"""
-    update_gather(id)
-    return execute(sql)
+    if item['bdwp_url']:
+        update_gather(id)
+        return execute(sql)
+    print('下载链接为空')
+    return
 
 
 def get_detail_url():
@@ -115,6 +118,6 @@ def update_gather(id):
     return
 if __name__ == '__main__':
     # get_detail_url()
-    schedule.every().day.at('10:30').do(get_detail_url)  # 每天10:30运行
+    schedule.every().day.at('10:00').do(get_detail_url)  # 每天10:30运行
     while True:
         schedule.run_pending()
