@@ -15,14 +15,14 @@ from zimeiti.public import refactoring_img, down_img, contenc_description, get_w
 
 
 class MainSpider(scrapy.Spider):
-    name = "k8h8"
+    name = "k8h82"
     # allowed_domains = ["xxx.com"]
     start_urls = ["https://www.k8h8.com/"]
-    path = f'//192.168.0.15/data/SEO/images/{name}/'
+    path = f'C:/{name}/'
     s = 0
     l = 0
     def parse(self, response):
-        lanmus = response.xpath('//ul[@id="menu-menu-1"]/li/a/@href').getall()[1:2]
+        lanmus = response.xpath('//ul[@id="menu-menu-1"]/li/a/@href').getall()[1:4]
         if lanmus:
             for lm in lanmus:
                 yield scrapy.Request(url=lm,callback=self.erji)
@@ -50,7 +50,7 @@ class MainSpider(scrapy.Spider):
                 de_url = li.xpath('@href').get()
                 detail_url = urljoin(self.start_urls[0], de_url)
                 item['ncolumn'] = repsonse.meta['ncolumn']
-                item['domian'] = 'k8h8'
+                item['domian'] = 'k8h82'
                 item['url'] = detail_url
                 item['imgUrl'] = imgUrl
                 yield item
@@ -66,4 +66,4 @@ class MainSpider(scrapy.Spider):
 
 
 if __name__ == '__main__':
-    os.system('scrapy crawl k8h8')
+    os.system('scrapy crawl k8h82')

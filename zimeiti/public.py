@@ -90,7 +90,8 @@ def down_img(url, referer, path):
         # if len(houzui) > 5:
         #     houzui = 'jpg'
         # filename = timetimes() + '.' + houzui
-        image_url_hash = hashlib.shake_256(response.url.encode()).hexdigest(5)
+        # image_url_hash = hashlib.shake_256(response.url.encode()).hexdigest(5)
+        image_url_hash = hashlib.shake_256(response.url.encode()).hexdigest(10)
         image_perspective = re.sub(r'[\\/:*?"<>|]','',response.url.split('/')[-2]) # 正则替换掉符号
         image_filename = f'{image_url_hash}_{image_perspective}.jpg'
         if not os.path.exists(path):  # 判断路径是否存在，不存在则创建
@@ -278,7 +279,7 @@ def refactoring_img1(article, prefix, path):
 
 # 连接服务器数据
 def server_con(name):
-    conn = pymysql.connect(host='154.209.3.231', port=3306, user='root', passwd='b7dd8a57504453a9', db=name)  # db:表示数据库名称
+    conn = pymysql.connect(host='47.97.152.141', port=3306, user='apt10_com', passwd='PEsPnytkCNddbjHb', db=name)  # db:表示数据库名称
     return conn
 
 # 获取栏目信息
@@ -301,12 +302,13 @@ def execute1(name,sql):
     conn = server_con(name)
     cur = conn.cursor()
     try:
-        result = cur.execute(sql)
-        print(result)
+        cur.execute(sql)
+        result = cur.fetchall()
+
         conn.commit()
         cur.close()
         conn.close()
-        return True
+        return result
     except Exception as e:
         print(e)
         return False

@@ -35,8 +35,8 @@ class ZimeitiPipeline:
         # cur = conn.cursor()
         # if 'image_urls' in item:
         #     item.pop('image_urls')
-        if item['title'] and item['Ncontent']:
-        # if item['url']:
+        # if item['title'] and item['Ncontent']:
+        if item['url']:
             keys = ",".join(list(item.keys()))
             value_list = list(item.values())
             values = []
